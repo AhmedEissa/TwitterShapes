@@ -16,7 +16,7 @@ class TwitterCaller extends Timer {
     void scheduleBubbleTasks() {
         schedule(twitterSearch(), Calendar.getInstance().getTime(), 40000);
 
-        schedule(getAddBubblesTask(), Calendar.getInstance().getTime(), 3500);
+        schedule(getAddBubblesTask(), Calendar.getInstance().getTime(), 2000);
 
 
     }
@@ -26,7 +26,7 @@ class TwitterCaller extends Timer {
             @Override
             public void uiUpdate() {
                 int randomNumber = frame.getRandomInt(100);
-              if (randomNumber > 0 && randomNumber<=75) {
+              if (randomNumber > 0 && randomNumber<=49) {
                     Status tweet;
                     int size = tweets.size();
                     synchronized (this) {
@@ -35,7 +35,7 @@ class TwitterCaller extends Timer {
 
                     frame.addBubble("@" + tweet.getUser().getScreenName(), tweet.getText(), "bubble");
 
-                } else if (randomNumber > 75) {
+                } else if (randomNumber > 50) {
                     frame.addBubble("", "", "empty");
                 }
             }

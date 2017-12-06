@@ -12,12 +12,7 @@ public class StartClass extends Application {
 
         if (main == null) {
             main = new Background();
-            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent o) {
-                    System.exit(-1);
-                }
-            });
+            primaryStage.setOnCloseRequest(o -> System.exit(-1));
             main.start(primaryStage);
             TwitterCaller shape = new TwitterCaller(main);
             shape.scheduleBubbleTasks();
