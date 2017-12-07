@@ -1,6 +1,13 @@
 
+import javafx.scene.image.ImageView;
+import javafx.scene.image.ImageViewBuilder;
 import twitter4j.*;
 
+import javax.imageio.ImageIO;
+import javafx.scene.image.Image;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 class TwitterCaller extends Timer {
@@ -16,7 +23,7 @@ class TwitterCaller extends Timer {
     void scheduleBubbleTasks() {
         schedule(twitterSearch(), Calendar.getInstance().getTime(), 40000);
 
-        schedule(getAddBubblesTask(), Calendar.getInstance().getTime(), 2000);
+        schedule(getAddBubblesTask(), Calendar.getInstance().getTime(), 3000);
 
 
     }
@@ -24,19 +31,25 @@ class TwitterCaller extends Timer {
     private TimerTask getAddBubblesTask() {
         return new UIUpdateTimerTask() {
             @Override
-            public void uiUpdate() {
+            public void uiUpdate() throws IOException {
                 int randomNumber = frame.getRandomInt(100);
               if (randomNumber > 0 && randomNumber<=49) {
                     Status tweet;
                     int size = tweets.size();
                     synchronized (this) {
                         tweet = tweets.get(randomize.nextInt(size));
+                        tweet.getUser().getProfileImageURL();
+
                     }
 
-                    frame.addBubble("@" + tweet.getUser().getScreenName(), tweet.getText(), "bubble");
+                  ImageView imageView = ImageViewBuilder.create()
+                          .image(new Image(tweet.getUser().getBiggerProfileImageURL()))
+                          .build();
+
+                    frame.addBubble("@" + tweet.getUser().getScreenName(), tweet.getText(), "bubble",imageView);
 
                 } else if (randomNumber > 50) {
-                    frame.addBubble("", "", "empty");
+                    frame.addBubble("", "", "empty",null);
                 }
             }
         };
@@ -56,6 +69,7 @@ class TwitterCaller extends Timer {
 //                        Query query4 = new Query("#MiddlesexNSS");
 
                     QueryResult result = twitter.search(query);
+
                     //QueryResult result1 = twitter.search(query1);
 //                        QueryResult result2 = twitter.search(query2);
 //                        QueryResult result3 = twitter.search(query3);
@@ -64,6 +78,7 @@ class TwitterCaller extends Timer {
                     tweets = new ArrayList<>();
 
                     tweets.addAll(result.getTweets());
+
                     //tweets.addAll(result1.getTweets());
 //                        tweets.addAll(result2.getTweets());
 //                        tweets.addAll(result3.getTweets());

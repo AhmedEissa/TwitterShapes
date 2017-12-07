@@ -1,5 +1,6 @@
 import javafx.application.Platform;
 
+import java.io.IOException;
 import java.util.TimerTask;
 
 /**
@@ -14,12 +15,16 @@ public class UIUpdateTimerTask extends TimerTask {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                uiUpdate();
+                try {
+                    uiUpdate();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    public void uiUpdate() {
+    public void uiUpdate() throws IOException {
 
     }
 }

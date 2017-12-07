@@ -2,7 +2,6 @@
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -29,10 +28,10 @@ public class Background {
 
     public void start(Stage primaryStage) {
 
-        //int sceneWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
-        int sceneWidth = (int) Screen.getScreens().get(1).getVisualBounds().getWidth();//.getPrimary().getVisualBounds().getWidth();
-        //int sceneHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
-        int sceneHeight = (int) Screen.getScreens().get(1).getVisualBounds().getHeight();
+        int sceneWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
+        //int sceneWidth = (int) Screen.getScreens().get(1).getVisualBounds().getWidth();//.getPrimary().getVisualBounds().getWidth();
+        int sceneHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
+        //int sceneHeight = (int) Screen.getScreens().get(1).getVisualBounds().getHeight();
         primaryStage.initStyle(StageStyle.UNDECORATED);
         stage = primaryStage;
 
@@ -65,7 +64,7 @@ public class Background {
         stage.show();
     }
 
-    void addBubble(String author, String text, String shape) {
+    void addBubble(String author, String text, String shape,ImageView userImage) {
         Image image = null;
         Pane pane = new Pane();
 
@@ -90,10 +89,6 @@ public class Background {
                         pane = setSize(pane, "snow");
                         break;
                     case 3:
-                        image = new Image("snow.png");
-                        pane = setSize(pane, "snow");
-                        break;
-                    case 4:
                         image = new Image("rudolph.png");
                         pane = setSize(pane, "rudolph");
                         break;
@@ -129,7 +124,7 @@ public class Background {
         double x = getRandomInt((int) (stage.getScene().getWidth())) / 1.4;
 
         if (!shape.equals("empty")) {
-            pane = addLabels(pane, author, text);
+            pane = addLabels(pane, author, text,userImage);
             new Scene(pane, pane.getWidth(), pane.getHeight());
             group.getChildren().add(pane);
             SnapshotParameters params = new SnapshotParameters();
@@ -150,10 +145,10 @@ public class Background {
         }
     }
 
-    private Pane addLabels(Pane pane, String author, String text) {
+    private Pane addLabels(Pane pane, String author, String text,ImageView image) {
         Label user = new Label();
         Label tweet = new Label();
-        user.relocate(35, 70);
+        user.relocate(35, 200);
         user.setText(author);
         user.setMinWidth(130);
         user.setWrapText(true);
@@ -163,6 +158,9 @@ public class Background {
         tweet.setWrapText(true);
         tweet.setTextFill(Color.WHITE);
         tweet.setText(text);
+        image.relocate(35,70);
+        image.setFitWidth(130);
+        image.setFitHeight(130);
 
         user.setStyle("" +
                 "-fx-background-radius: 10px;" +
@@ -174,6 +172,7 @@ public class Background {
                 "-fx-padding: 10px;");
         pane.getChildren().add(user);
         pane.getChildren().add(tweet);
+        pane.getChildren().add(image);
         return pane;
     }
 
@@ -222,7 +221,7 @@ public class Background {
 
     private void animation(ImageView image, Group group) {
         Thread thread = new Thread(() -> {
-            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(20),
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(50),
                     (ActionEvent t) -> {
                         if (image.getLayoutY() == stage.getScene().getHeight() + 300) {
                             group.getChildren().remove(image);
