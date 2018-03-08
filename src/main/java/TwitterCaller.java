@@ -1,13 +1,9 @@
 
 import javafx.scene.image.ImageView;
-import javafx.scene.image.ImageViewBuilder;
 import twitter4j.*;
-
-import javax.imageio.ImageIO;
 import javafx.scene.image.Image;
+
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 class TwitterCaller extends Timer {
@@ -17,7 +13,7 @@ class TwitterCaller extends Timer {
     private Background frame = null;
 
     TwitterCaller(Background frame) {
-        this.frame=frame;
+        this.frame = frame;
     }
 
     void scheduleBubbleTasks() {
@@ -33,23 +29,20 @@ class TwitterCaller extends Timer {
             @Override
             public void uiUpdate() throws IOException {
                 int randomNumber = frame.getRandomInt(100);
-              if (randomNumber > 0 && randomNumber<=49) {
+                if (randomNumber > 0 && randomNumber <= 49) {
                     Status tweet;
                     int size = tweets.size();
                     synchronized (this) {
                         tweet = tweets.get(randomize.nextInt(size));
                         tweet.getUser().getProfileImageURL();
-
                     }
 
-                  ImageView imageView = ImageViewBuilder.create()
-                          .image(new Image(tweet.getUser().getBiggerProfileImageURL()))
-                          .build();
+                    ImageView imageView = new ImageView(new Image(tweet.getUser().getBiggerProfileImageURL()));
 
-                    frame.addBubble("@" + tweet.getUser().getScreenName(), tweet.getText(), "bubble",imageView);
+                    frame.addBubble("@" + tweet.getUser().getScreenName(), tweet.getText(), "bubble", imageView);
 
                 } else if (randomNumber > 50) {
-                    frame.addBubble("", "", "empty",null);
+                    frame.addBubble("", "", "empty", null);
                 }
             }
         };
@@ -61,8 +54,7 @@ class TwitterCaller extends Timer {
             public void run() {
                 Twitter twitter = new TwitterFactory().getInstance();
                 try {
-                    //synchronized (this) {
-                    Query query = new Query("#trump");
+                    Query query = new Query("#MDX");
                     //Query query1 = new Query("#MiddlesexUniversity");
 //                        Query query2 = new Query("#YourMiddlesexYourVoice");
 //                        Query query3 = new Query("#MDXNSS");
@@ -83,19 +75,12 @@ class TwitterCaller extends Timer {
 //                        tweets.addAll(result2.getTweets());
 //                        tweets.addAll(result3.getTweets());
 //                        tweets.addAll(result4.getTweets());
-
-                    //}
-
                 } catch (TwitterException te) {
                     te.printStackTrace();
                 }
             }
         };
     }
-
-
-
-
 
 
 }

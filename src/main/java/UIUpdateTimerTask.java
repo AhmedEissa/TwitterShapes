@@ -12,14 +12,11 @@ import java.util.TimerTask;
  */
 public class UIUpdateTimerTask extends TimerTask {
     public void run() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    uiUpdate();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        Platform.runLater(() -> {
+            try {
+                uiUpdate();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
