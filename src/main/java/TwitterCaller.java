@@ -55,7 +55,7 @@ class TwitterCaller extends Timer {
                 Twitter twitter = new TwitterFactory().getInstance();
                 try {
                     Query query = new Query("#MDX");
-                    //Query query1 = new Query("#MiddlesexUniversity");
+                    Query query1 = new Query("#MiddlesexUniversity");
 //                        Query query2 = new Query("#YourMiddlesexYourVoice");
 //                        Query query3 = new Query("#MDXNSS");
 //                        Query query4 = new Query("#MiddlesexNSS");
